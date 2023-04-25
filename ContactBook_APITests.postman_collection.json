@@ -1,0 +1,237 @@
+{
+	"info": {
+		"_postman_id": "905c0afc-0794-4c5a-b1b5-dff70968b00f",
+		"name": "ContactBook_APITests",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "25604143"
+	},
+	"item": [
+		{
+			"name": "GET",
+			"item": [
+				{
+					"name": "List All Contacts",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Assert that response code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"pm.test(\"Assert that response type is JSON\", function () {\r",
+									"    const body = pm.response.json();\r",
+									"    pm.expect(typeof(body)).to.equal(\"object\");\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://petyscontactbook.petyazh29.repl.co/api/contacts",
+							"protocol": "https",
+							"host": [
+								"petyscontactbook",
+								"petyazh29",
+								"repl",
+								"co"
+							],
+							"path": [
+								"api",
+								"contacts"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Find Contact By Keyword",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Assert that status code is 200\", function() {\r",
+									"    pm.response.to.have.status(200);\r",
+									"})\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://petyscontactbook.petyazh29.repl.co/api/contacts/search/Michael",
+							"protocol": "https",
+							"host": [
+								"petyscontactbook",
+								"petyazh29",
+								"repl",
+								"co"
+							],
+							"path": [
+								"api",
+								"contacts",
+								"search",
+								"Michael"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "CREATE",
+			"item": [
+				{
+					"name": "Create New Contact",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Assert that status code is 201 or 202\", function () {\r",
+									"    pm.expect(pm.response.code).to.be.oneOf([201, 202]);\r",
+									"  \r",
+									"    const respBody = pm.response.json();\r",
+									"    pm.environment.set(\"contactsId\", respBody.contact.id);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"firstName\": \"Petya\",\r\n    \"lastName\": \"Zhelyazkova\",\r\n    \"email\": \"petya29@gmail.com\",\r\n    \"phone\": \"+1 800 200 301\",\r\n    \"comments\": \"Old friend\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://petyscontactbook.petyazh29.repl.co/api/contacts",
+							"protocol": "https",
+							"host": [
+								"petyscontactbook",
+								"petyazh29",
+								"repl",
+								"co"
+							],
+							"path": [
+								"api",
+								"contacts"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "PATCH",
+			"item": [
+				{
+					"name": "Try To Edit Created Contact",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Assert that error code is 404\", function () {\r",
+									"    pm.response.to.have.status(404);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"firstName\": \"Alexnadra\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://petyscontactbook.petyazh29.repl.co/api/contacts/{{contactsId}}",
+							"protocol": "https",
+							"host": [
+								"petyscontactbook",
+								"petyazh29",
+								"repl",
+								"co"
+							],
+							"path": [
+								"api",
+								"contacts",
+								"{{contactsId}}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "DELETE",
+			"item": [
+				{
+					"name": "Delete Contact",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Assert that status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "https://petyscontactbook.petyazh29.repl.co/api/contacts/{{contactsId}}",
+							"protocol": "https",
+							"host": [
+								"petyscontactbook",
+								"petyazh29",
+								"repl",
+								"co"
+							],
+							"path": [
+								"api",
+								"contacts",
+								"{{contactsId}}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
